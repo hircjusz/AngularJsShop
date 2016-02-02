@@ -29,6 +29,9 @@ namespace Emix.Web
             bundles.Add(new ScriptBundle("~/bundles/emixApp")
                 .IncludeDirectory("~/ngApp", "*.js", true)
                 );
+            bundles.Add(new ScriptBundle("~/bundles/exampleApp")
+              .IncludeDirectory("~/ngAppExample", "*.js", true)
+              );
 
 
             bundles.Add(new StyleBundle("~/Content/Styles/css")

@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutExample.cshtml";
+}
+
+<h1>UPPERCASE</h1>
+<div ng-controller="Ctrl">
+    {{welcome | uppercase}}
+    <br>
+    {{1443517985683 | date:"dd/MM/yyyy H:mm"}}
+</div>
+
+<h1>APPLY CTRL</h1>
+<div ng-controller="ApplyCtrl">
+    <p>AngularJS actually calls almost all of
+        your code within an $apply call. Events like <code>ng-click</code>, controller initialization, <code>$http</code>
+        callbacks are all wrapped in <code>$scope.$apply()</code>. So you don’t need to call it yourself, in fact you can’t.
+    </p>
+
+    <p>$apply() is used to execute an expression in angular from outside of the angular framework. (For example from browser
+        DOM events, setTimeout, XHR or third party libraries).
+    </p>
+    <br/>
+
+    <div class="well container">
+        <div class="row">
+            <div class="col-lg-12 bg-primary">
+                Wartośc zmiennej "credit" zmienia się co 2 sekundy jednak nie widać tego w widoku.
+                <br>Kliknij button lub wprowadź znak do inputa aby wywołać event i zaktualizować widok.
+                <h1>credit: {{credit}}</h1>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-6">
+                <p>metoda $apply jest wywoływana kiedy w scope zachodzi zmiana (dirty checking)</p>
+                <input type="text" ng-model="test"/>
+            </div>
+            <div class="col-lg-6">
+                <p>można też ją wywołać ręcznie</p>
+                <button>call $apply()</button>
+            </div>
+        </div>
+    </div>
+</div>
+<h1>DYREKTYWA FRIENDS</h1>
+<div ng-controller="FriendsCtrl">
+    name: {{friends}}
+    <hr>
+    <my-worker ng-repeat="friend in friends"
+               name="{{user.name}}"
+               model="friend"
+               action="action(param)">
+        worker {{$index + 1}}
+    </my-worker>
+
+</div>

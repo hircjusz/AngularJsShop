@@ -709,6 +709,10 @@
       <DependentUpon>transitions.less</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="ngAppExample\directives\ngDctvFriends.js" />
+    <Content Include="ngAppExample\ngApplyCtrl.js" />
+    <Content Include="ngAppExample\ngUpperCase.js" />
+    <Content Include="ngAppExample\tpl\dctv-friends-tpl.html" />
     <Content Include="ngApp\directives\ngLteLayout.js" />
     <Content Include="ngApp\directives\ngMorrisCharts.js" />
     <Content Include="ngApp\emixApp.js" />
@@ -1753,7 +1757,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ControllersWepApi\FileUploadController.cs" />
     <Compile Include="ControllersWepApi\TestController.cs" />
+    <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1771,6 +1777,9 @@
     <Content Include="Views\Shared\_Urls.cshtml" />
     <Content Include="Views\Home\IndexLte.cshtml" />
     <Content Include="Views\Shared\_LayoutLte.cshtml" />
+    <Content Include="Views\Shop\Index.cshtml" />
+    <Content Include="Views\Example\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutExample.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1781,6 +1790,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Messages\In\" />
+    <Folder Include="ngAppShop\" />
     <Folder Include="Scripts\angular-i18n\ngLocale\" />
     <Folder Include="Scripts\Vendor\Ring3\" />
     <Folder Include="Scripts\Vendor_dev\Ring3\" />
