@@ -13,7 +13,7 @@ namespace Emix.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/vendor")
 #if DEBUG
-                .IncludeDirectory("~/Scripts/Vendor_dev/Ring0", "*.js", true)
+.IncludeDirectory("~/Scripts/Vendor_dev/Ring0", "*.js", true)
                 .IncludeDirectory("~/Scripts/Vendor_dev/Ring1", "*.js", true)
                 .IncludeDirectory("~/Scripts/Vendor_dev/Ring2", "*.js", true)
                 .IncludeDirectory("~/Scripts/Vendor_dev/Ring3", "*.js", true)
@@ -23,7 +23,7 @@ namespace Emix.Web
                 .IncludeDirectory("~/Scripts/Vendor/Ring2", "*.js", true)
                 .IncludeDirectory("~/Scripts/Vendor/Ring3", "*.js", true)
 #endif
-                .IncludeDirectory("~/Scripts/Custom", "*.js", true)
+.IncludeDirectory("~/Scripts/Custom", "*.js", true)
                 );
 
             bundles.Add(new ScriptBundle("~/bundles/emixApp")
@@ -58,7 +58,8 @@ namespace Emix.Web
                 .Include("~/Content/transitions.css")
                 .Include("~/Content/AdminLte-2.0.2/AdminLte.css")
                 .Include("~/Content/AdminLte-2.0.2/skins/skin-blue.css")
-                .Include("~/Content/site.css"));
+                .Include("~/Content/site.css")
+                 .Include("~/Content/ngAppExampleCss/css/ngappexcss.css"));
         }
     }
 }

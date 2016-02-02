@@ -695,6 +695,11 @@
     <Content Include="Content\morris.core.css">
       <DependentUpon>morris.core.less</DependentUpon>
     </Content>
+    <Content Include="Content\ngAppExamplesCss\css\ngappexcss.css" />
+    <Content Include="Content\ngAppExamplesCss\css\ngappexcss.min.css" />
+    <Content Include="Content\ngAppExamplesCss\morris.core.css">
+      <DependentUpon>ngappexcss.less</DependentUpon>
+    </Content>
     <Content Include="Content\nProgress.css" />
     <Content Include="Content\site.css">
       <DependentUpon>site.less</DependentUpon>
@@ -1740,6 +1745,7 @@
     <Content Include="Content\bootstrap\bootstrap-3.3.5.less" />
     <Content Include="Content\bootstrap\mixins\reset-text.less" />
     <Content Include="Content\fontawesome\font-awesome-4.4.0.less" />
+    <Content Include="Content\ngAppExamplesCss\ngappexcss.less" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1790,6 +1796,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Messages\In\" />
+    <Folder Include="ngAppExample\controllers\" />
     <Folder Include="ngAppShop\" />
     <Folder Include="Scripts\angular-i18n\ngLocale\" />
     <Folder Include="Scripts\Vendor\Ring3\" />
