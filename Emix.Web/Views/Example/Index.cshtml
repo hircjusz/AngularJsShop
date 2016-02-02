@@ -46,11 +46,11 @@
 <div ng-controller="FriendsCtrl">
     name: {{friends}}
     <hr>
-    <my-worker ng-repeat="friend in friends"
+    <div my-worker ng-repeat="friend in friends"
                name="{{user.name}}"
                model="friend"
                action="action(param)">
         worker {{$index + 1}}
-    </my-worker>
+    </div>
 
 </div>
