@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="../libs/angular/angular.js"></script>
+    <script src="../libs/angular-animate/angular-animate.js"></script>
+    <script src="../libs/TweenMax.min.js"></script>
+</head>
+<body ng-controller="Ctrl as ctrl" class="container">
+<br/>
+<button ng-click="ctrl.fadeIt()" class="btn btn-success">toggle</button>
+<hr/>
+<div class="well well-lg text-uppercase text-warning " hide-me="ctrl.isHidden">is hidden: {{ctrl.isHidden}}</div>
+
+<script>
+
+    angular
+            .module('app', ['ngAnimate'])
+            .controller('Ctrl', function () {
+                this.isHidden = false;
+                this.fadeIt = function () {
+                    this.isHidden = !this.isHidden;
+                };
+            })
+            .directive('hideMe', function ($animate) {
+                return {
+                    link: function (scope, el, attrs) {
+                        scope.$watch(attrs.hideMe, function (newVal) {
+                            !newVal ? $animate.removeClass(el, 'hide-me') : $animate.addClass(el, 'hide-me');
+                        });
+                    }
+                }
+            })
+            .animation('.hide-me', function () {
+                return {
+                    addClass: function (element, className) {
+                        TweenMax.to(element, 1, {opacity: 0});
+                    },
+                    removeClass: function (element, className) {
+                        TweenMax.to(element, 1, {opacity: 1});
+                    }
+                }
+            })
+
+</script>
+
+</body>
+
+</html>

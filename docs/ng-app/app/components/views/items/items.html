@@ -1,0 +1,30 @@
+<div>
+    <div class="form-group-sm row">
+        <div class="col-lg-3">
+            <div ng-include="'components/views/items/search.html'"></div>
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading container-fluid">
+                    <div class="col-lg-8 text-center">
+                        <uib-pagination total-items="(vm.itemStorage.items | filter:vm.itemsControl.search).length"
+                                        ng-model="vm.itemsControl.currentPage"
+                                        class="pagination-sm"
+                                        items-per-page="vm.itemsControl.itemsPerPage"
+                                        num-pages="vm.itemsControl.numPages">
+                        </uib-pagination>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <item ng-repeat="item in vm.itemStorage.items
+                                | orderBy:vm.itemsControl.sortBy:vm.itemsControl.desc
+                                | filter:vm.itemsControl.search
+                                | startFromFtr:vm.itemsControl.currentPage:vm.itemsControl.itemsPerPage
+                                | limitTo:vm.itemsControl.itemsPerPage"
+                          model="item">
+                    </item>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

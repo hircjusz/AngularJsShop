@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="drinkApp" class="container">
+    <div ng-controller="AppCtrl" class="row">
+        <div class="col-lg-12">
+            Izolowany scope dyrektywy - komunikacja z kontrolerem przez referencję
+            <h4>Zmiana w jednej dyrektywie powoduje zmiany w scope kontrolera.<br>
+                "=" - przekazanie referencji; two way data binding</h4>
+            <hr/>
+            <div>{{drinks}}</div>
+        </div>
+        <div class="clearfix"></div>
+        <hr/>
+        <div drink
+             class="col-lg-6"
+             ng-repeat="drink in drinks"
+             flavor="drink.ctrlFlavor"
+             seconds="{{seconds}}"
+             odor="drink.ctrlOdor">
+        </div>
+
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    var app = angular.module("drinkApp", []);
+
+    app.controller("AppCtrl", function ($scope, $timeout) {
+        $scope.drinks = [
+            {ctrlFlavor: "czekolada", ctrlOdor: "czekoladowy"},
+            {ctrlFlavor: "wanilia", ctrlOdor: "waniliowy"}
+        ]
+
+        $scope.seconds = 0;
+
+        setInterval(function () {
+            $scope.seconds = ++$scope.seconds;
+            $scope.$apply()
+        }, 1000)
+    })
+
+    app.directive("drink", function () {
+        return {
+            scope: {
+                flavor: "=", // przekazanie referencji; two way data binding
+                odor: "=",
+                seconds: "@" // przekazanie wartośći; one way data binding
+            },
+            templateUrl: '../tpl/dctv-isolate-scope-=.html'
+        }
+    })
+</script>
+</body>
+</html>

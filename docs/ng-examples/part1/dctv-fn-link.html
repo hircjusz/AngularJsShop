@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body>
+
+<div ng-app="app" class="container">
+    <div>
+        <h4>Metoda link uruchamia się kiedy templatka dyrektywy jest juz dodana do drzewa DOM.
+            <br>Jest uruchamiana dla każdej instancji dyrektywy.
+            <br>Przyjmuje 4 parametry (scope, el, attrs, ctrl):
+            <ul>
+                <li>scope: tutaj możemy dodać zmienne obiekty czy funkcje aby były dostępne w widoku</li>
+                <li>element: możemy podłączać eventy do elementu lub zmieniać jego style</li>
+                <li>attrs: odczyt atrybutów przekazanych w znaczniku dyrektywy</li>
+                <li>ctrl: przekazany kontroler - może to być np. kontroler innej dyrektywy lub referencjie do
+                    formularza w który się znajduje.
+                </li>
+            </ul>
+            Metoda link jest ignorowana jeżeli korzystamy z metody "compile".
+            </h4>
+        <hr>
+        <my-dctv ng-repeat="i in [1,2,3]"
+                 class="col-md-3 col-md-offset-1 well">
+            <h5>index: {{i}}</h5>
+        </my-dctv>
+
+    </div>
+</div>
+
+<script>
+    angular.module("app", [])
+
+            .directive('myDctv', function () {
+                return {
+                    restrict: "E",
+                    template: "<div>" +
+                            "<h3>directive template</h3>" +
+                            "<div ng-transclude></div>" +
+                            "</div>",
+                    transclude: true,
+                    // Metoda link uruchamia się kiedy templatka dyrektywy wraz z transcludem jest juz dodana do drzewa DOM.
+                    // Możemy w niej np. podłączać eventy do elementu lub zmieniac style.
+                    // Metoda link jest ignorowana jeżeli korzystamy z metody "compile".
+                    link: function (scope, el, attrs, ctrl) {
+                        var transclude = angular.element(el[0].querySelector('div[ng-transclude]'));
+                        transclude.css({border: '15px solid ' + ctrl.createRandomColor()});
+                        el.on('click', function () {
+                            alert('border color: ' + transclude.css('border'));
+                        });
+                    },
+                    // metoda wykonuje się przed metodą link. Może być dziedziczona
+                    controller: function ($scope, $element) {
+                        this.createRandomColor = function () {
+                            var letters = '0123456789ABCDEF'.split('');
+                            var color = '#';
+                            for (var i = 0; i < 6; i++) {
+                                color += letters[Math.floor(Math.random() * 16)];
+                            }
+                            return color;
+                        }
+                    }
+                }
+            })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body class="container">
+
+<div ng-app="app" ng-controller="ctrl">
+    <extend-tpl></extend-tpl>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+
+    angular.module("app", [])
+            .controller('ctrl', function ($scope) {
+                $scope.doSomething = function () {
+                    alert('sth done');
+                };
+            })
+            .directive("extendTpl", function ($compile) {
+                return {
+                    template: "<h1>base template</h1>",
+                    link: function (scope, element) {
+                        var template = "<input ng-model='label'>{{label}}<br><button ng-click='doSomething()'>do sth</button>";
+                        var linkFn = $compile(template);
+                        var content = linkFn(scope);
+                        element.append(content);
+                    }
+                }
+            });
+</script>
+</body>
+</html>

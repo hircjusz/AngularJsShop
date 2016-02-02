@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+
+<h1 class="content">poczekaj</h1>
+
+<script>
+
+    /**
+     * Wywołanie zwrotne funckcji przekazanej w parametrze
+     * @param callback
+     */
+    function getData(callback) {
+        setTimeout(function () {
+            var preparedData = [1, 2, 3].join();
+            callback(preparedData);
+        }, 1000);
+    }
+
+    function renderView(data) {
+        document.querySelector('.content').innerHTML = data;
+    }
+
+    // przekazuje funkcję w parametrze
+    getData(renderView);
+
+    // tutaj z funkcją anonimową
+    getData(function (data) {
+        console.log(data);
+    });
+
+</script>
+</body>
+</html>

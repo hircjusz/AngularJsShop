@@ -1,0 +1,37 @@
+<div>
+    <div class="row">
+        <div class="col-lg-6">
+            <p class="alert alert-success" ng-if="vm.formSent">
+                Wiadomość została wysłana.
+            </p>
+
+            <form ng-submit="vm.sendForm()"
+                  name="vm.contactForm"
+                  novalidate>
+
+                <input-dctv type="text"
+                            model="vm.user.name"
+                            required="true">
+                    Twoje imię
+                </input-dctv>
+
+                <input-dctv type="email"
+                            model="vm.user.email"
+                            required="true">
+                    Twój e-mail
+                </input-dctv>
+
+                <input-dctv type="multiline"
+                            model="vm.user.message"
+                            required="true">
+                    Wiadomość
+                </input-dctv>
+
+                <hr/>
+
+                <button class="btn btn-primary">Wyślij</button>
+
+            </form>
+        </div>
+    </div>
+</div>

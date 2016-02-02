@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>chart</title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/chart.css"/>
+    <script src="../libs/greensock/src/minified/TweenMax.min.js"></script>
+</head>
+<body>
+
+<div class="chart-wrapper" ng-controller="chart">
+    <p>kliknij w kolumnę aby zobaczyć, że jest oddzielną instancją fabryki: 'Column'.</p>
+    <column-dctv
+            class="column-container"
+            ng-repeat='(key, value) in ::items'
+            key="key"
+            value="value">
+    </column-dctv>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module('app', [])
+
+            .controller('chart', function ($scope) {
+                $scope.items = {
+                    "KNP": 61,
+                    "PIS": 26,
+                    "SLD": 96,
+                    "PSL": 43,
+                    "PO": 52
+                };
+            })
+
+            .factory('Column', function () {
+                return function () {
+
+                    var container = angular.element("<div>");
+                    var column = angular.element("<div>").addClass('column');
+                    var percent = angular.element("<div>").addClass('percent');
+                    var columnName = angular.element("<div>").addClass('column-name');
+                    container.append(column);
+                    container.append(percent);
+                    container.append(columnName);
+
+                    this.createColumn = function (el, name, value) {
+                        percent.text(value + "%");
+                        columnName.text(name);
+                        this.refreshColumn(value);
+                        el.append(container);
+                    };
+
+                    this.refreshColumn = function (value) {
+                        var size = value * 3;
+                        TweenMax.to(column, 1, {css: {height: size}, ease: Back.easeOut});
+                        TweenMax.to(percent, 1.1, {css: {bottom: size}, ease: Back.easeOut});
+                        percent.text(value + "%");
+                    }
+                }
+            })
+
+            .directive('columnDctv', function (Column) {
+                return {
+                    scope: {
+                        key: "=",
+                        value: "="
+                    },
+                    controller: function ($scope) {
+                        this.column = new Column();
+                    },
+                    link: function (scope, el, attrs, ctrl) {
+                        ctrl.column.createColumn(el, scope.key, scope.value);
+                        el.on('click', function () {
+                            ctrl.column.refreshColumn(Math.round(Math.random() * 100));
+                        })
+                    }
+                }
+            })
+
+</script>
+</body>
+</html>

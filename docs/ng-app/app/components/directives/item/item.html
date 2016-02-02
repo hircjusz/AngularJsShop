@@ -1,0 +1,37 @@
+<article class="row">
+
+    <div class="col-lg-8">
+        <div>{{model.title}}</div>
+        <div class="truncate">{{model.description}}</div>
+        <br/>
+        <a class="btn btn-primary btn-xs" ui-sref="product-details.item({id: model.id})">więcej</a>
+    </div>
+
+    <div class="col-lg-2">
+        <img ng-src="{{model.img}}" class="img-thumbnail"/>
+    </div>
+
+    <div class="col-lg-2 text-right">
+
+        <div class="form-group form-inline">
+            <label for="price" class="">cena:</label>
+            <input id="price"
+                   style="width: 70px;"
+                   class="form-control"
+                   type="number"
+                   ng-model="price"
+                   ng-disabled="!$root.userState.access">
+            <span>zł</span>
+        </div>
+
+        <div ng-if="$root.userState.access"
+             class="form-group">
+            <button class="btn btn-danger btn-sm"
+                    ng-click="itemStorage.delete(model)">
+                usuń
+            </button>
+        </div>
+
+    </div>
+</article>
+<hr/>

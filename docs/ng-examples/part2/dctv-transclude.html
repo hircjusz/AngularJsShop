@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app" class="container">
+    <div ng-controller="AppCtrl">
+        <p>Transclude - czyli wstawienie zawartości dyrektywy (tutaj button) w wyznaczone przez atrybut "ng-transclude"
+            miejsce w szabonie dyrektywy</p>
+        <my-dctv>
+            <button class="btn btn-primary">button przeniesiony do szablonu dyrektywy.</button>
+        </my-dctv>
+
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+
+<script>
+    var app = angular.module("app", []);
+
+    app.controller("AppCtrl", function ($scope) {
+
+    });
+
+    app.directive("myDctv", function () {
+        return {
+            restrict: "E",
+            transclude: true,
+            template: '<div class="panel panel-default">\n    <div class="panel-body"><h4>szablon dyrektywy</h4>\n        <div ng-repeat="i in [1,2,3]">Lorem ipsum</div>\n    </div>\n\n    <div class="panel-footer">\n        <h5>tranclude</h5>\n        <div class="alert alert-danger" ng-transclude>place for content of directive. this text won\'t be appeared</div>\n    </div>\n</div>'
+        }
+    })
+</script>
+
+</body>
+</html>

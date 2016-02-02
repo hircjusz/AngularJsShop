@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../libs/angular/angular.js"></script>
+    <script src="js/API.js"></script>
+</head>
+<body>
+<div ng-controller="ctrl">
+    Promise is a service that helps you run functions asynchronously,
+    and use their return values (or exceptions) when they are done processing.
+    <hr/>
+    <h1>result is: {{result}}</h1>
+</div>
+
+</body>
+<script>
+
+    angular
+            .module('app', ['app.API'])
+
+            .controller('ctrl', function ($scope, API) {
+                var promise = API.getAsyncData();
+
+                promise.then(function (data) {
+                    $scope.result = data;
+                })
+            });
+
+    angular.bootstrap(document, ['app']);
+
+</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+    <style>
+        h4 {
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body class="container" ng-app="app" ng-controller="myCtrl">
+
+<p>AngularJS actually calls almost all of
+    your code within an $apply call. Events like <code>ng-click</code>, controller initialization, <code>$http</code>
+    callbacks are all wrapped in <code>$scope.$apply()</code>. So you don’t need to call it yourself, in fact you can’t.
+</p>
+
+<p>$apply() is used to execute an expression in angular from outside of the angular framework. (For example from browser
+    DOM events, setTimeout, XHR or third party libraries).
+</p>
+<br/>
+
+<div class="well container">
+    <div class="row">
+        <div class="col-lg-12 bg-primary">
+            Wartośc zmiennej "credit" zmienia się co 2 sekundy jednak nie widać tego w widoku.
+            <br>Kliknij button lub wprowadź znak do inputa aby wywołać event i zaktualizować widok.
+            <h1>credit: {{credit}}</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-6">
+            <p>metoda $apply jest wywoływana kiedy w scope zachodzi zmiana (dirty checking)</p>
+            <input type="text" ng-model="test"/>
+        </div>
+        <div class="col-lg-6">
+            <p>można też ją wywołać ręcznie</p>
+            <button>call $apply()</button>
+        </div>
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+
+    angular.module("app", [])
+
+            .controller("myCtrl", function ($scope, $timeout, $document) {
+                $scope.credit = 0;
+
+                setInterval(function () {
+                    $scope.credit += 1;
+                    //$scope.$apply();
+                }, 2000);
+
+                // tutaj nie trzeba używać $apply ponieważ $timeout wywołuje go automatycznie
+                $timeout(function () {
+                    $scope.credit = 1;
+                }, 1000);
+
+                // przykład użycia $scope.apply() - stosujemy kiedy dokonujemy zmian poza "światem" angulara
+                // i zmiana nie powstaje w wyniku użycia obiektów (np. $timeout) czy dyrektyw (np. ng-click) angularowych.
+                var btn = $document.find('button');
+                btn.on('click', function () {
+                    $scope.$apply();
+                });
+            });
+
+</script>
+</body>
+</html>

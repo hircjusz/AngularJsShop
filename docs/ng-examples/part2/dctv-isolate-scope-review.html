@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="phoneApp" class="container">
+    <h4>Przykład pokazuje wszystkie 3 możliwości("@","=","&") komunikacji między dyrektywą a scope kontrolera.</h4>
+    <hr>
+    <div ng-controller="AppCtrl">
+        <phone number="111-1111" network="network" make-call="leaveVoicemail(number, message)"></phone>
+        <phone number="222-2222" network="network" make-call="leaveVoicemail(number, message)"></phone>
+        <phone number="333-3333" network="network" make-call="leaveVoicemail(number, message)"></phone>
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module("phoneApp", [])
+
+            .controller("AppCtrl", function ($scope) {
+                $scope.leaveVoicemail = function (number, message) {
+                    alert("Number: " + number + "\nnetwork: " + $scope.network + "\nsaid: " + message)
+                }
+            })
+
+            .directive("phone", function () {
+                return {
+                    restrict: "E",
+                    scope: {
+                        number: "@", // one way data binding (by value)
+                        network: "=", // two way data binding (by reference)
+                        makeCall: "&" // access to method
+                    },
+                    template: '<div class="col-md-4">\n  Number (by value): {{number}}\n  <br /><br />\n  Network (by reference):\n  <select class="form-control" ng-model="network" ng-options="net for net in networks"></select>\n  <br />\n  message:\n  <br />\n  <input class="form-control" type="text" ng-model="value">\n  <br />\n  <div class="btn btn-primary" ng-click="makeCall({number: number, message: value})">Call home!</div>\n</div>',
+
+                    link: function (scope) {
+                        scope.networks = ["Era", "Plus", "Play"];
+                        scope.network = scope.networks[0];
+                    }
+                }
+            })
+</script>
+</body>
+</html>

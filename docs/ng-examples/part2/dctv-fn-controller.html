@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body ng-controller="Ctrl">
+
+<div class="col-lg-4">
+    <ul accordion>
+        <li accordion-item ng-repeat="item in items">
+            <h2 ng-click="accordionCtrl.setActive(this)">{{item.title}}</h2>
+            <div ng-if="active">{{item.content}}</div>
+        </li>
+    </ul>
+</div>
+
+<script>
+
+    angular
+            .module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.items = [
+                    {
+                        title: "title 1",
+                        content: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch."
+                    },
+                    {
+                        title: "title 2",
+                        content: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch."
+                    },
+                    {
+                        title: "title 3",
+                        content: "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch."
+                    }
+                ]
+            })
+            .directive('accordion', function () {
+                return {
+                    controller: function () {
+                        this.setActive = function (clicked) {
+                            if (this.current) {
+                                this.current.active = false;
+                            }
+                            clicked.active = true;
+                            this.current = clicked;
+                        };
+                    }
+                }
+            })
+            .directive('accordionItem', function () {
+                return {
+                    require: "^accordion",
+                    link: function (scope, el, attrs, accordionCtrl) {
+                        scope.accordionCtrl = accordionCtrl;
+                    }
+                }
+            })
+
+
+</script>
+
+</body>
+
+</html>

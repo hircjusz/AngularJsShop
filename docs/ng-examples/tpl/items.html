@@ -1,0 +1,12 @@
+{{url}}
+<div class="container row">
+    <div class="list-group col-lg-2">
+        <a class="list-group-item"
+           ng-repeat="item in itemsLogos"
+           ui-sref="items.item({id: item.name})"
+           ui-sref-active="active">
+            {{item.name}}
+        </a>
+    </div>
+    <div class="col-lg-10" ui-view>init</div>
+</div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <style>
+        .toggle {
+            transition: 12s;
+            font-size: 55px;
+        }
+
+        /*dodanie tej klasy usuwa klase ng-hide co powoduje że element staje się widoczny dlatego trzeba ustawić opacity na 0*/
+        .toggle.ng-hide-remove {
+            opacity: 0;
+        }
+
+        .toggle.ng-hide-remove-active {
+            opacity: 1;
+        }
+
+        .toggle.ng-hide-add {
+            opacity: 1;
+        }
+
+        .toggle.ng-hide-add-active {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body ng-app="app" ng-controller="AppCtrl">
+<h4>Animacja wykorzystująca CSS</h4>
+<p>Moduł ngAnimate dodaje klasy CSS(np. ng-hide-add, ng-hide-add-active) do elementu kiedy ten zmienia swój stan np. podczas zmiany z użyciem dyrektywy ng-show.</p>
+<hr>
+<button class="btn btn-primary" ng-click="toggle=!toggle">Toggle Animation</button>
+<br/><br/>
+
+<div class="toggle" ng-show="toggle">Some content here</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="../libs/angular-animate/angular-animate.js"></script>
+<script>
+    angular.module("app", ["ngAnimate"])
+
+            .controller("AppCtrl", function ($scope) {
+                $scope.toggle = false;
+            })
+
+</script>
+</body>
+</html>

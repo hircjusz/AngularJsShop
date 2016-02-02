@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <script src="../libs/angular/angular.js"></script>
+    <script src="../libs/angular-ui-router/release/angular-ui-router.js"></script>
+</head>
+<body class="container">
+<div class="btn-group">
+    <a ui-sref="home"
+            class="btn btn-default"
+            ui-sref-active="btn-danger">
+        HOME (like normal view)
+    </a>
+    <a ui-sref="items"
+            class="btn btn-default"
+            ui-sref-active="btn-danger">
+        LIST (nested ui-view)
+    </a>
+</div>
+<hr/>
+<div class="well" ui-view></div>
+
+<script>
+    angular.module('app', ['ui.router'])
+
+            .config(function ($stateProvider) {
+                $stateProvider
+                        .state("home", {
+                            url: "/home-page",
+                            template: "<div>my home page</div>"
+                        })
+                        .state('items', {
+                            url: "/items-list",
+                            templateUrl: "../tpl/items.html",
+                            controller: "ItemsCtrl"
+                        })
+                        .state('items.item', {
+                            url: "/:id",
+                            template: "<img ng-src='../img/{{imgSrc}}.png' width=200 />",
+                            controller: function ($scope, $stateParams) {
+                                $scope.imgSrc = $stateParams.id;
+                            }
+                        })
+            })
+
+            .controller('ItemsCtrl', function ($scope, $location) {
+                $scope.url = $location.url();
+                $scope.itemsLogos = [
+                    {name: "html"},
+                    {name: "css"},
+                    {name: "js"}
+                ]
+            })
+
+</script>
+</body>
+</html>

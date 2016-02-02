@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body>
+
+<div class="container" ng-controller="Ctrl">
+
+    <div class="col-lg-4 well">
+        <p>Dyrektywa ng-options służy do tworzenia elementów "option" w selekcie</p>
+
+        <p>{{ selected }}</p>
+        <select class="form-control"
+                ng-model="selected"
+                ng-options="color.name for color in colors">
+        </select>
+    </div>
+
+</div>
+
+<script>
+    angular
+            .module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.colors = [
+                    {name: 'black', shade: 'dark'},
+                    {name: 'white', shade: 'light'},
+                    {name: 'red', shade: 'dark'},
+                    {name: 'blue', shade: 'dark'},
+                    {name: 'yellow', shade: 'light'}
+                ];
+                $scope.selected = $scope.colors[2]; // default
+
+                $scope.$watch('selected', function (newVal) {
+                    var well = document.querySelector('.well');
+                    angular.element(well).css('background', newVal.name);
+                })
+            })
+</script>
+
+</body>
+
+</html>

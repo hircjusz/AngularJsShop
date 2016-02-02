@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app" class="container">
+    <h4>Przykład emisji i odbioru własnego zdarzenia w AngularJS. Umożliwia komunikację pomiędzy kontrolerami dzięki
+        komunikacji przez scope/rootScope.</h4>
+    <hr/>
+    Twój email:
+    <input type="email"
+           class="form-control"
+           autofocus
+           ng-init="email='sdf@sfd.pl'"
+           ng-model="email"
+           style="width:200px;">
+    <hr/>
+
+    <div class="row">
+        <div ng-controller="MainCtrl"
+             class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">MainCtrl</div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        <h4>lista produktów:</h4>
+                        <ul>
+                            <li ng-repeat="product in [1,2,3]">
+                                product {{$index + 1}}
+                                <button
+                                        class="btn btn-primary"
+                                        ng-click="newOrder('product' + product)">
+                                    kup przedmiot
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h4>zamówione produkty:</h4>
+                        <ul>
+                            <li ng-repeat="item in orders">{{item.product}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div ng-controller="SecondCtrl"
+             class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">SecondCtrl</div>
+                <div class="panel-body" style="color: red; font-size: 40px;">
+                    <div ng-if="order">
+                        właśnie kupiłeś {{order.product}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="js/event-broadcast.js"></script>
+</body>
+</html>

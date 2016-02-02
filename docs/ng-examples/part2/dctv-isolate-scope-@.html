@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="drinkApp" class="container">
+
+    <div ng-controller="AppCtrl">
+
+        <h4>Przykład przekazania wartości do scope dyrektywy - zmiany w scope kontrolera są widoczne w dyrektywie.
+            Ewentualne zmiany w dyrektywie nie będą powodować zmian w scope kontrolera.
+            Dodatkowo mamy tutaj dyrektywę "color" która zmienia kolor bordera dyrektywy zgodnie z przekazaną
+            wartością</h4>
+        <hr/>
+        <div drink color="red"
+             flavor="{{drinks[0].ctrlFlavor}}"
+             odor="{{drinks[0].ctrlOdor}}">
+        </div>
+
+        <div drink color="green"
+             flavor="{{drinks[1].ctrlFlavor}}"
+             odor="{{drinks[1].ctrlOdor}}">
+        </div>
+
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="js/dctv-isolate-scope-@.js"></script>
+</body>
+</html>

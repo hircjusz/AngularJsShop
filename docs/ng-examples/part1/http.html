@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body>
+<div ng-controller="Ctrl">
+    <button ng-click="getData()">getData</button>
+    <button ng-click="postData()">postData</button>
+    <ul>
+        <li ng-repeat="(key, value) in user">
+            {{key}}: {{value}}
+        </li>
+    </ul>
+</div>
+
+</body>
+<script>
+
+    angular.module('app', [])
+
+            .controller('Ctrl', function ($scope, $http) {
+
+                $scope.getData = function () {
+                    $http
+                            .get("http://js.edu.pl/api/examples/get-data.php")
+                            .success(function (responseData) {
+                                $scope.user = responseData;
+                            })
+                            .error(function (data, status) {
+                                console.error('status:', status);
+                            });
+                };
+
+                $scope.postData = function () {
+                    $http
+                            .post("http://js.edu.pl/api/examples/get-data.php", {
+                                id: 1,
+                                profession: "front-end developer"
+                            })
+                            .success(function (responseData) {
+                                $scope.user = angular.fromJson(responseData);
+                            });
+                };
+            });
+
+    angular.bootstrap(document, ['app']);
+</script>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body class="container">
+
+<div ng-app="app" ng-controller="ctrl">
+    <extend-tpl></extend-tpl>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+
+    angular
+            .module("app", [])
+            .controller('ctrl', function ($scope) {
+                $scope.label = 'template added by $compile object';
+                $scope.doSomething = function () {
+                    alert('click');
+                };
+            })
+            .directive("extendTpl", function ($compile, $http) {
+                return {
+                    template: "<button ng-click=\"ctrl.compileForm()\">get form by ajax</button><hr/>",
+                    controller: function ($scope, $element) {
+                        this.compileForm = function () {
+                            $http.get('http://js.edu.pl/api/examples/htmlData.php')
+                                    .success(function (template) {
+                                        var linkFn = $compile(template);
+                                        var content = linkFn($scope);
+                                        $element.append(content);
+                                    })
+                        };
+                    },
+                    link: function (scope, element, attrs, ctrl) {
+                        scope.ctrl = ctrl;
+                        scope.$watch('input', function (newVal, oldVal) {
+                            console.log(newVal);
+                        })
+                    }
+                }
+            });
+</script>
+</body>
+</html>

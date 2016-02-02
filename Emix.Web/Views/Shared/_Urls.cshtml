@@ -1,0 +1,19 @@
+﻿
+<script>
+    var Emix = {
+        Api: {
+            Test: {
+                sayHello: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "Test", action = "SayHello" })',
+                uploadFiles: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "FileUpload", action = "UploadFiles" })',
+                deleteFile: '@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "FileUpload", action = "DeleteFile" })'
+            }
+        },
+        Web: {
+            translationsFolder: '@Url.Content("~/ngApp/translations/")',
+            angularLocaleFolder: '@Url.Content("~/Scripts/angular-i18n/")'
+        },
+        Settings: {
+            defaultLanguage: '@Emix.Web.App_Start.Settings.DefaultLanguage'
+        }
+    };
+</script>

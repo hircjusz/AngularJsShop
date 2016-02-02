@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app"
+     ng-controller="Ctrl"
+     ng-init="user = {name: 'John'}; name='Harry'">
+
+    <div class="col-lg-12 well">
+        <div class="row">
+            <div class="col-lg-8">
+                W tym przykładzie zmiana wartości w scope dyrektywy zachodzi również w scope kontrolera.
+                <br/>
+                Obiekty w js przekazywane są przez referencje; zmienne przez wartość.
+                Jeżeli korzystamy z referencji, nie musimy używać $parent w przypadku użycia
+                dyrektyw tworzących nowy scope jak np. ng-if czy ng-include.
+            </div>
+            <div class="col-lg-4">
+                <div class="well well-sm">
+                    ctrl: {{data.selectValue}}
+                </div>
+
+                <div class="well well-sm">
+                    directive:
+                    <select-dctv data="data"></select-dctv>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 well">
+        <div class="text-center well">
+            <p>Zmienne dziedziczone są przez wartość a obiekty przez referencje</p>
+
+            <div class="text-danger">user(obj): {{user}}</div>
+            <div class="text-danger">name(var): {{name}}</div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="well">
+                    <h3>Custom directive (scope: true)</h3>
+
+                    <div>
+                        When directive scope is set to “true”, AngularJS will create a new scope object and assign to
+                        the directive. This newly created scope object is prototypically inherited from its parent scope
+                        (the controller scope where it’s been used ).
+                    </div>
+                    <br/>
+                    <input-dctv></input-dctv>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="well">
+                    <h3>ng-include</h3>
+
+                    <div ng-include="'../tpl/include-tpl.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module("app", [])
+            .controller('Ctrl', function ($scope) {
+                $scope.data = {};
+            })
+            .directive("selectDctv", function () {
+                return {
+                    restrict: "E",
+                    scope: {
+                        data: "=" // by reference
+                    },
+                    template: "<select ng-if='true' ng-model='data.selectValue' ng-options='item for item in [1,2,3]'></select> {{data.selectValue}}"
+                }
+            })
+            .directive("inputDctv", function () {
+                return {
+                    restrict: "E",
+                    scope: true, // dziedziczenie prototypu przodka; zmienne dziedziczone są przez wartość a obiekty przez referencje
+                    template: "<div>" +
+                    "<input ng-model='user.name' /><span> - object - reference</span><br>" +
+                    "<input ng-model='name' /><span> - value</span><br/>" +
+                    "<input ng-model='$parent.name' /><span> - parent var</span>" +
+                    "</div>"
+                }
+            });
+</script>
+
+</body>
+</html>

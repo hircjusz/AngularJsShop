@@ -1,0 +1,39 @@
+{
+  "status": "OK",
+  "data": [
+    {
+      "name": "Produkty",
+      "link": "items",
+      "icon": "glyphicon glyphicon-shopping-cart"
+    },
+    {
+      "name": "Sklepy",
+      "link": "",
+      "icon": "glyphicon glyphicon-home",
+      "submenu": [
+        {
+          "index": "shop1",
+          "link": "shops.item",
+          "name": "Katowice",
+          "icon": "glyphicon glyphicon-info-sign"
+        },
+        {
+          "index": "shop2",
+          "link": "shops.item",
+          "name": "Warszawa",
+          "icon": "glyphicon glyphicon-info-sign"
+        }
+      ]
+    },
+    {
+      "name": "Kontakt",
+      "link": "contact",
+      "icon": "glyphicon glyphicon-envelope"
+    },
+    {
+      "name": "Faq",
+      "link": "faq",
+      "icon": "glyphicon glyphicon-question-sign"
+    }
+  ]
+}

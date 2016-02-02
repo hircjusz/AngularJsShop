@@ -1,0 +1,52 @@
+button {
+    margin: 10px;
+}
+
+.chart-wrapper {
+    height: 320px;
+    margin: 0 20px;
+}
+
+.column-container {
+    position: relative;
+    width: 50px;
+    height: inherit;
+    float: left;
+    margin: 0 10px;
+    border: 1px solid #eaeaea;
+}
+
+.container {
+    width: 48px;
+}
+
+.column {
+    position: absolute;
+    background: #0072C6;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
+    bottom: 0;
+    width: 48px;
+    padding-top: 2px;
+}
+
+.percent {
+    position: absolute;
+    text-align: center;
+    width: 48px;
+    font-weight: bold;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.column-name {
+    position: absolute;
+    bottom: -25px;
+    font-weight: bold;
+    text-align: center;
+    width: 48px;
+}

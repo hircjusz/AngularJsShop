@@ -1,0 +1,41 @@
+<html>
+<head>
+    <script src="../libs/angular/angular.js"></script>
+    <script src="../libs/angular-new-router/dist/router.es5.js"></script>
+</head>
+<body ng-app="app">
+
+<h1>Angular 2 router playground</h1>
+
+<a ng-link="home">Home</a>
+<a ng-link="about">About</a>
+<a ng-link="detail({id:5})">detail</a>
+<hr>
+<div ng-viewport></div>
+
+<script>
+    angular
+            .module('app', ['ngNewRouter'])
+            .controller('HomeController', function ($router) {
+                console.log('HomeController instantiated');
+                this.url = $router.name;
+            })
+            .controller('AboutController', function ($router) {
+                console.log('AboutController instantiated');
+                this.url = $router.name;
+            })
+            .controller('DetailController', function ($routeParams) {
+                console.log('DetailController instantiated');
+                this.id = $routeParams.id;
+            })
+            .run(function ($router) {
+                $router.config([
+                    {path: '/home', component: 'home'},
+                    {path: '/about', component: 'about'},
+                    {path: '/detail/:id', component: 'detail'}
+                ]);
+            });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS</title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+    <style>
+        span.box {
+            border: solid 1px;
+            padding: 40px;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h3>serwis "service" - singleton</h3>
+<hr/>
+<br/>
+<br/>
+
+  <span class="box" ng-controller="FirstCtrl">
+    {{fooSrv.count}}
+    <button class="btn btn-primary" ng-click="fooSrv.increment(1)">
+        <i class="glyphicon glyphicon-plus-sign"></i>1
+    </button>
+  </span>
+
+  <span class="box" ng-controller="SecondCtrl">
+    <button class="btn btn-lg btn-success" ng-click="fooSrv.increment(5)">
+        <span class="glyphicon glyphicon-plus-sign"></span>5
+    </button>
+    {{fooSrv.count}}
+  </span>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module('app', [])
+            .value('count', 7)
+            .service('fooSrv', function (count) {
+                this.count = count;
+                this.increment = function (value) {
+                    this.count += value;
+                };
+            })
+            .controller('FirstCtrl', function ($scope, fooSrv) {
+                $scope.fooSrv = fooSrv;
+            })
+            .controller('SecondCtrl', function ($scope, fooSrv) {
+                $scope.fooSrv = fooSrv;
+            });
+</script>
+
+</body>
+</html>

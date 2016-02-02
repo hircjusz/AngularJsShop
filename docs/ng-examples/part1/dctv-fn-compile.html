@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="../libs/angular/angular.js"></script>
+
+</head>
+<body ng-app="app">
+
+<form class="col-lg-4 well"
+      name="contactForm"
+      ng-controller="Ctrl"
+      novalidate>
+
+    <p class="alert alert-info">user: {{user}}</p>
+
+    <input-dctv type="text"
+                model="user.name"
+                required="true">
+        Twoje imię
+    </input-dctv>
+    <hr/>
+    <input-dctv type="email"
+                model="user.email"
+                required="true">
+        Twój e-mail
+    </input-dctv>
+    <hr/>
+    <input-dctv type="multiline"
+                model="user.message"
+                required="true">
+        Wiadomość
+    </input-dctv>
+
+</form>
+
+<script>
+    angular
+            .module('app', [])
+            .controller('Ctrl', function ($scope) {
+
+            })
+            .directive('inputDctv', function () {
+                return {
+                    transclude: true,
+                    scope: {
+                        model: "="
+                    },
+                    template: '<div ng-form="inputDctv">' +
+                                '<div ng-transclude></div>' +
+                                '<div class="input-content"></div>' +
+                                '<small ng-show="inputDctv.$invalid">pole wymagane</small>' +
+                                '</div>',
+                    compile: function (el, attrs) {
+                        var tpl = attrs.type === 'multiline'
+                                ? angular.element('<textarea>').attr('rows', 4)
+                                : angular.element('<input>').attr('type', attrs.type || 'text');
+
+                        tpl.attr({
+                            'required': attrs.required,
+                            'ng-minlength': attrs.minlength || 3,
+                            'ng-model': 'model'
+                        });
+
+                        tpl.addClass('form-control');
+
+                        var inputContent = el[0].querySelector(".input-content");
+                        angular.element(inputContent).append(tpl);
+
+                        return {
+                            pre: function () {
+                            },
+                            post: function (scope, el) {
+                                el.find('small').css({color: 'coral'});
+                            }
+                        }
+                    }
+                }
+            });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<div class='container row well well-sm'>
+    <div class='col-lg-1'>
+        <br>
+        <label class='text-danger' ng-transclude></label>
+    </div>
+    <div class='col-lg-4'>
+        <label>
+            name:
+            <input type='text' disabled ng-model='model.name' class='form-control'>
+        </label>
+    </div>
+    <div class='col-lg-4 form-group'>
+        <label>
+            profession:
+            <input type='text' ng-model='model.profession' class='form-control'>
+        </label>
+    </div>
+
+    <div class="col-lg-3">
+        <br>
+        <button class='btn btn-primary ' ng-click='action({param: model})'>show worker data</button>
+    </div>
+
+</div>

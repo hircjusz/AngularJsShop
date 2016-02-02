@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div class="container" ng-app="app">
+
+    <p>Dyrektywa "ng-if" tworzy nowy/własny scope, dlatego nie aktualizuje zmiennej "name", która jest w scope kontrolera.
+    Inaczej zachowuje się właściwość "name" obiektu "user".
+    Dzieje się tak dlatego, że obiekty w js są dziedziczone przez referencje a nie przez wartość jak to się ma w
+    przypadku zmiennych.
+    Własny scope tworzą też dyrektywy: ng-repeat i ng-include.</p>
+
+    <div class="panel panel-primary" ng-controller="Ctrl">
+        <div class="panel-heading">
+            <div>Controller</div>
+        </div>
+        <div class="panel-body">
+            <div>obiekt user: <b>{{user}}</b></div>
+            <div>zmienna name: <b>{{name}}</b></div>
+            <br/>
+            <div class="well" ng-if="true">
+                <p>ng-if utworzył nowy scope</p>
+                <input type="text" ng-model="user.name"/> {{user}}
+                <br/>
+                <input type="text" ng-model="name"/> {{name}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module("app", [])
+            .controller('Ctrl', function ($scope) {
+                $scope.user = {
+                    name: "Mike"
+                };
+                $scope.name = "John";
+            });
+</script>
+
+</body>
+</html>

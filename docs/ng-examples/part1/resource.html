@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body ng-app="app">
+
+<div class="container" ng-controller="Ctrl">
+    <h3 class="text-danger">Żeby edytować musisz być zalogowany. Otworz plik modal.html (part2) i się zaloguj.
+        Plik musi być uruchomiony z domeny http://localhost:63342</h3>
+    <span>items count: {{items.length}}</span>
+    <span class="text-danger" ng-if="recording">recording...</span>
+    <hr/>
+
+    <table class="table">
+        <tr ng-repeat="item in items">
+            <td>{{item.title}}</td>
+            <td><input class="form-control" type="number" ng-model="item.price"/></td>
+            <td><a class="btn btn-success " href="#" ng-click="updateItem(item)">save</a></td>
+            <!--<td><a class="btn btn-danger" ng-click="deleteItem(item.id)">delete</a></td>-->
+        </tr>
+    </table>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="../libs/angular-resource/angular-resource.js"></script>
+<script src="js/items-request.js"></script>
+<script>
+
+    angular
+            .module("app", ['app.itemsRequest'])
+            .config(function ($httpProvider) {
+                $httpProvider.defaults.withCredentials = true;
+            })
+            .controller("Ctrl", function ($scope, itemsRequest) {
+
+                function fetch() {
+                    itemsRequest.fetch(function (responseData) {
+                        $scope.items = responseData.data;
+                    });
+                }
+
+                $scope.updateItem = function (item) {
+                    $scope.recording = true;
+                    itemsRequest.update(item, function () {
+                        $scope.recording = false;
+                    });
+                };
+
+                $scope.deleteItem = function (id) {
+                    itemsRequest.delete({id: id}, function () {
+                        fetch();
+                    });
+                };
+
+                fetch();
+            })
+
+</script>
+</body>
+</html>

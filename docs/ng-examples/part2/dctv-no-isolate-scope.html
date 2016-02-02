@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app" class="container">
+    <div ng-controller="ctrl">
+        <h4>Nieizolowany scope dyrektywy. Zmiana w którejś dyrektywie powoduje zmiany w scope kontrolera.</h4>
+        <hr>
+        <my-dctv></my-dctv>
+        <my-dctv></my-dctv>
+        <my-dctv></my-dctv>
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+
+<script>
+    var app = angular.module("app", []);
+
+    app.controller("ctrl", function ($scope) {
+        $scope.work = 'init';
+    });
+
+    app.directive("myDctv", function () {
+        return {
+            restrict: "E",
+            template: '<div style="border:solid 1px; padding: 10px;" class="col-md-4">\n  <p>directive body</p>\n  <input class="form-control" placeholder="wpisz coś" type="text" ng-model="work">\n  {{work}}\n</div>'
+        }
+    })
+</script>
+
+</body>
+</html>

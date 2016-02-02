@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+
+</head>
+<body ng-app="app">
+
+<sign-in id="10"></sign-in>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="../libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../libs/underscore/underscore.js"></script>
+<script src="js/modalSrv.js"></script>
+<script>
+    angular
+            .module("app", ['app.modal', 'ui.bootstrap'])
+            .config(function ($httpProvider) {
+                $httpProvider.defaults.withCredentials = true;
+            })
+            .directive('signIn', function (modalSrv, $http) {
+                return {
+                    restrict: "E",
+                    template: "<button uib-tooltip='kliknij aby zobaczyć okno modalne' tooltip-placement='bottom'>sign in</button>",
+                    link: function (scope, el, attrs, ctrl) {
+                        el.on('click', function () {
+                            modalSrv
+                                    .show('../tpl/modal-autorization-tpl.html', null, 'sm')
+                                    .then(function (model) {
+                                        $http
+                                                .post('http://js.edu.pl/api/examples/login/', _.pick(model, 'login', 'pass'))
+                                                .success(function () {
+                                                    alert('ok');
+                                                })
+                                                .error(function (err) {
+                                                    alert('err:' + angular.toJson(err));
+                                                })
+                                    })
+                            ;
+                        })
+                    }
+                }
+            })
+
+</script>
+</body>
+</html>

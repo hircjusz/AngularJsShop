@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../libs/angular/angular.js"></script>
+    <script src="../libs/angular-route/angular-route.js"></script>
+    <style>
+        a {
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+<a href="#home">home</a> |
+<a href="#contact">contact</a>
+<ng-view></ng-view>
+
+</body>
+<script>
+
+    var app = angular.module('app', ['ngRoute']);
+    app.config(function ($routeProvider) {
+        $routeProvider.when('/home', {
+            template: "<h1>{{welcome}}</h1>",
+            controller: function ($scope, resolvedData) { // controller wait for resolvedData
+                $scope.welcome = 'resolved data - ' + angular.toJson(resolvedData.data);
+                /*resolvedData.promise.then(function (data) {
+                 $scope.welcome = 'resolved data - ' + angular.toJson(data);
+                 })*/
+            },
+            resolve: {
+                resolvedData: function ($http, $route, $q) {
+                    console.log('resolve', $route.current);
+                    return $http.get("http://js.edu.pl/api/examples/chart.php");
+                    /*var deferred = $q.defer();
+                    setTimeout(function () {
+                        deferred.resolve('123');
+                    }, 2000);
+                    return deferred;*/
+                }
+            }
+        }).when('/contact', {
+            template: "<h1>{{contact}}</h1>",
+            controller: function ($scope) {
+                $scope.contact = 'napisz do mnie';
+            }
+        })
+        //.otherwise({redirectTo: '/home'});
+    })
+
+    // funkcja odpala się tylko raz przy wejsciu na stronę lub przy odświeżeniu
+    app.run(function ($rootScope) {
+        console.log('run');
+
+        // zdarzenie uruchamia się przy zmianie w rutingu
+        $rootScope.$on('$routeChangeSuccess', function ($routeParams, $route) {
+            console.log('route', $route);
+        })
+
+    })
+
+
+</script>
+</html>

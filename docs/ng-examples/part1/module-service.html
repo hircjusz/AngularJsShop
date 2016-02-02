@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS</title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+</head>
+<body>
+
+<div class="container" ng-controller="Ctrl">
+    <h1>{{mySrv.value}}</h1>
+    <button class="btn btn-success"
+            ng-click="mySrv.doSomething()">
+        do something
+    </button>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="js/mySrv.js"></script>
+
+<script>
+    angular
+            .module('app', ['app.mySrv'])
+            .controller('Ctrl', function ($scope, mySrv) {
+                $scope.mySrv = mySrv;
+            })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS</title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+    <style>
+        span.box {
+            border: solid 1px;
+            padding: 40px;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h3>nowa instancja serwisu angularowego z wykorzystaniem serwisu factory</h3>
+<hr/>
+<br/>
+<br/>
+
+  <span class="box" ng-controller="FirstCtrl">
+    <!-- count z pierwszej instancji foo-->
+    {{fooFcty.count}}
+    <button class="btn btn-primary" ng-click="fooFcty.increment(1)">
+        <i class="glyphicon glyphicon-plus-sign"></i>1
+    </button>
+  </span>
+
+  <span class="box" ng-controller="SecondCtrl">
+    <button class="btn btn-lg btn-success" ng-click="fooFcty.increment(5)">
+        <i class="glyphicon glyphicon-plus-sign"></i>5
+    </button>
+    <!-- count z drugiej instancji foo-->
+    {{fooFcty.count}}
+  </span>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module('app', [])
+
+            .factory('FooFcty', function () {
+                return function (initNum) {
+                    this.count = initNum;
+                    this.increment = function (num) {
+                        this.count += num;
+                    };
+                };
+            })
+
+            .controller('FirstCtrl', function ($scope, FooFcty) {
+                $scope.fooFcty = new FooFcty(1); // oddzielna instancja FooFcty
+            })
+
+            .controller('SecondCtrl', function ($scope, FooFcty) {
+                $scope.fooFcty = new FooFcty(5); // oddzielna instancja FooFcty
+            })
+</script>
+</body>
+</html>

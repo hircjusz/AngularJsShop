@@ -1,0 +1,46 @@
+﻿<div>
+    <nav class="navbar navbar-default" role="navigation" ng-controller="appHeader">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/dashboard">
+                    <i class="fa fa-home"></i>
+                    <span>Emix</span>
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{ active: isMenuActive('/charts/morris')}"><a href="#/charts/morris">Section</a></li>
+                    <li ng-class="{ active: isMenuActive('/fileupload')}"><a href="#/fileupload">Upload file</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown" dropdown>
+                        <a href="" class="dropdown-toggle" dropdown-toggle>Language <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-class="{ active: isLanguageActive('it-IT')}"><a href="" ng-click="changeLanguage('it-IT')"><span class="flag-icon flag-icon-it"></span> Italiano</a></li>
+                            <li ng-class="{ active: isLanguageActive('en-US')}"><a href="" ng-click="changeLanguage('en-US')"><span class="flag-icon flag-icon-us"></span> English</a></li>
+                            <li class="divider"></li>
+                            <li ng-class="{ active: isLanguageActive('fr-FR')}"><a href="" ng-click="changeLanguage('fr-FR')"><span class="flag-icon flag-icon-fr"></span> French</a></li>
+                            <li ng-class="{ active: isLanguageActive('de-DE')}"><a href="" ng-click="changeLanguage('de-DE')"><span class="flag-icon flag-icon-de"></span> German</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+
+    <div class="container-fluid" id="page-wrapper">
+        <div class="pageContainer">
+            <div class="page {{ pageClass }}" ng-view></div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,9 @@
+*.js
+*.js.map
+!gulpfile.js
+!e2e-tests/**/*.js
+!*spec.js
+!karma.conf.js
+node_modules/
+app/libs
+.idea

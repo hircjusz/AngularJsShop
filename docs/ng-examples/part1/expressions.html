@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app" class="container">
+    <div ng-controller="ctrl">
+
+        <h4>Wyrażenia angularowe</h4>
+        <hr/>
+        <div class="row">
+            <div class="col-md-6" ng-repeat="item in friends">
+                <div class="panel panel-primary">
+
+                    <div class="panel-heading">
+                        <!--wyrażenie zwykłe-->
+                        <div>ng-repeat index: {{$index}}</div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <!--wyrażenie zwykłe-->
+                        <span>{{item.name}}!</span>
+                        <!--wyrażenie zwykłe warunkowe-->
+                        <span> - {{item.name == 'Mike' && 'you are Mike' || 'oh no, you are not Mike'}}</span>
+                        <hr/>
+                        <!--wyrażenie typu obiekt przekazane do dyrektywy-->
+                        <h2 ng-class="{'alert alert-danger':!item.access, 'alert alert-success':item.access}">
+                            access: {{item.access}}
+                        </h2>
+                        <hr/>
+                        <!--przekazanie referencji do dyrektywy-->
+                        <h5 ng-if="item.access"> has access </h5>
+                        <h5 ng-if="!item.access"> has't access </h5>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module('app', [])
+
+            .controller('ctrl', function ($scope) {
+
+                $scope.friends = [
+                    {name: 'John', access: false},
+                    {name: 'Mike', access: true}
+                ]
+
+            })
+</script>
+</body>
+</html>

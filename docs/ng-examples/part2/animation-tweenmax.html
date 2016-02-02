@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="../libs/angular/angular.js"></script>
+  <script src="../libs/greensock/src/minified/TweenMax.min.js"></script>
+  <style>
+    .my-btn {
+      trasform-origin : 0;
+      padding         : 10px;
+      cursor          : pointer;
+      margin          : 10px;
+      display         : inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<h4>Wykorzystanie kontrolera rodzica w dyrektywie.</h4>
+<p>Każda zagnieżdżona dyrektywa może mieć dostęp do kontrolera dyrektywy rodzica dzięki właściwości "require". Możliwy jest dostęp do kilku kontrolerów</p>
+
+<div class="wrapper">
+  <div class="my-btn" my-btn></div>
+  <div class="my-btn" my-btn my-special-btn="green"></div>
+</div>
+
+<script>
+  var app = angular.module('app', []);
+  app.directive('myBtn', function() {
+    return {
+      restrict: "A",
+      template: "<div>button</div>",
+      controller: function($scope, $element) {
+        this.onClick = function() {
+          alert('click handler from parent controller');
+        }
+        this.mouseEnter = function() {
+          TweenMax.to($element, .5, {scale: 1.1, ease: Back.easeOut})
+        }
+        this.mouseLeave = function() {
+          TweenMax.to($element, .5, {scale: 1, ease: Back.easeOut})
+        }
+      },
+      link: function(scope, el, attrs, ctrl) {
+        el.on('click', ctrl.onClick);
+      }
+    }
+  })
+  app.directive('mySpecialBtn', function() {
+    return {
+      restrict: "A",
+      require: "myBtn",
+      link: function(scope, el, attrs, ctrl) {
+        el.css({background: attrs.mySpecialBtn});
+        el.on('mouseenter', ctrl.mouseEnter);
+        el.on('mouseleave', ctrl.mouseLeave);
+      }
+    }
+  })
+</script>
+
+</body>
+
+</html>

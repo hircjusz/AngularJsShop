@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+</head>
+<body class="container">
+<h2 class="text-danger">
+    Dla ciekawskich!
+    <br>
+    Przykład pokazuje jak w JS można stworzyć mechanizmy(kontrolery, serwisy, DI, wyrażenia) dostępne w Angularze.
+</h2>
+<hr>
+<div my-ctrl="Ctrl" class="well col-lg-6">
+    <h1>{{welcome}}</h1>
+    <hr>
+    <h2>scope id: {{id}}</h2>
+    <hr>
+    <h3>{{dataA}}</h3>
+</div>
+
+<div my-ctrl="Ctrl2" class="well col-lg-6">
+    <h1>{{val}}</h1>
+    <hr>
+    <h2>scope id: {{id}}</h2>
+    <h3>{{dataB}}</h3>
+</div>
+
+<script>
+
+    var myAngular = {
+        scopeId: 0,
+
+        scope: function () {
+            this.name = "scope";
+            this.id = ++myAngular.scopeId;
+        },
+
+        services: function (name, callback) {
+            myAngular[name] = callback;
+        },
+
+        controller: function (name, callback) {
+            var DI = [];
+            var dependencies = this.getStrBetween(callback.toString(), "(", ")");
+            var DINames = dependencies.match(/[a-z]+/gi);
+
+            for (var i = 0; i < DINames.length; i++) {
+                var dep = new myAngular[DINames[i]]();
+                dep.name === 'scope' && (scope = dep);
+                DI.push(dep);
+            }
+
+            callback.apply(null, DI);
+            var UICtrl = document.querySelector('div[my-ctrl=' + name + ']');
+            this.renderUI("{{", "}}", UICtrl, scope);
+        },
+
+        getStrBetween: function (str, start, end) {
+            return str.substring(str.indexOf(start) + 1, str.indexOf(end));
+        },
+
+        renderUI: function (x, y, UICtrl, scope) {
+            var str = UICtrl.innerHTML.toString();
+            var rx = new RegExp(x + "[a-z]+" + y, "gi");
+            var rebuild = str.replace(rx, function (val) {
+                var prop = val.match(/[a-z]+/gi)[0];
+                return scope[prop];
+            });
+            UICtrl.innerHTML = rebuild;
+        }
+    };
+
+    /**
+     * Usage
+     */
+    myAngular.services('myService', function () {
+        this.data = 'msg from service';
+        this.welcome = 'welcome from service';
+    });
+
+    myAngular.services('data', function () {
+        this.dataA = 'data 1';
+        this.dataB = 'data 2';
+    });
+
+    myAngular.controller("Ctrl", function (scope, myService, data) {
+        scope.welcome = 'ctrl1 say: ' + myService.welcome;
+        scope.dataA = data.dataA;
+        //console.log('my DI', scope, myService);
+    });
+
+    myAngular.controller("Ctrl2", function (scope, myService, data) {
+        scope.val = 'ctrl2 say: ' + myService.data;
+        scope.dataB = data.dataB;
+        //console.log('my DI', scope, myService);
+    });
+
+</script>
+
+</body>
+</html>

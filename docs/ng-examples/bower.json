@@ -1,0 +1,16 @@
+{
+	"name": "angular example",
+	"dependencies": {
+		"angular": "latest",
+		"angular-route": "latest",
+		"angular-resource": "latest",
+		"angular-animate": "latest",
+		"angular-sanitize": "latest",
+		"angular-bootstrap": "latest",
+		"angular-ui-router": "latest",
+		"bootstrap": "latest",
+		"underscore": "latest",
+		"angular-new-router": "latest"
+	},
+	"license": "MIT"
+}

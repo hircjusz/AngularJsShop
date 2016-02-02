@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../style/style.css">
+    <style>
+        input.ng-invalid, textarea.ng-invalid {
+            border-left: 5px solid red
+        }
+
+        input.ng-valid, textarea.ng-valid {
+            border-left: 5px solid green;
+        }
+
+    </style>
+</head>
+<body ng-app="validateApp">
+
+<div ng-controller="Ctrl" class="col-lg-4">
+
+    user: {{user}}
+    <hr>
+
+    <form class="form"
+          name="contactForm"
+          novalidate
+          ng-submit="sendForm()">
+
+        <div ng-form="nameField">
+            <span>Twoje imię</span>
+            <input class="form-control"
+                   ng-minlength="3"
+                   ng-model="user.name"
+                   ng-required="true"
+                   type="text"
+                   autofocus/>
+            <small class="text-danger" ng-if="nameField.$invalid && contactForm.$submitted">Pole wymagane</small>
+        </div>
+        <br/>
+
+        <div ng-form="emailField">
+            <span>Twój e-mail</span>
+            <input class="form-control"
+                   ng-minlength=3
+                   ng-required="true"
+                   ng-model="user.email"
+                   type="email"/>
+
+            <small class="text-danger" ng-if="emailField.$invalid && contactForm.$submitted">Niepoprawny email</small>
+        </div>
+        <br/>
+
+        <div ng-form="nipField">
+            <span>Twój NIP</span>
+            <input class="form-control"
+                   ng-required="true"
+                   ng-model="user.nip"
+                   type="number"
+                   ng-pattern="/^[0-9]{10}$/"/>
+
+            <small class="text-danger" ng-if="nipField.$invalid && contactForm.$submitted">Niepoprawny NIP</small>
+        </div>
+
+        <hr/>
+        <button class="btn btn-primary">
+            wyślij
+        </button>
+
+    </form>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+
+    angular.module("validateApp", [])
+            .controller("Ctrl", function ($scope) {
+                $scope.sendForm = function () {
+                    if ($scope.contactForm.$valid) {
+                        alert('wysylam do api: ' + JSON.stringify($scope.user));
+                        $scope.user = {};
+                        $scope.contactForm.$setPristine();
+                    }
+                };
+            })
+
+</script>
+</body>
+</html>

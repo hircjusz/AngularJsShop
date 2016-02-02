@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app" class="container">
+  <div ng-controller="ctrl">
+
+    <h3>Izolowany scope dyrektywy - dostęp do metody kontrolera</h3>
+    <hr />
+    <!--w parametrze referencje do metody-->
+    <kid done="log(work)"></kid>
+    <kid done="log(work)"></kid>
+    <kid done="log(work)"></kid>
+    <hr>
+  </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="js/dctv-isolate-scope-&.js"></script>
+</body>
+</html>

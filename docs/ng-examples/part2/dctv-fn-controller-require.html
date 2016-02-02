@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app">
+  <h4>Wykorzystanie kontrolera rodzica w dyrektywie. Efekt wyświetla się w konsoli</h4>
+  <p>Każda zagnieżdżona dyrektywa może mieć dostęp do kontrolera dyrektywy rodzica dzięki właściwości "require". Możliwy jest dostęp do kilku kontrolerów</p>
+
+  <country>
+    <state>
+      <city></city>
+    </state>
+  </country>
+
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="js/dctv-fn-controller.js"></script>
+
+</body>
+</html>

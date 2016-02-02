@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app">
+    <div ng-controller="AppCtrl as ctrl">
+
+        <h4>Controller as - bez wstrzykiwania $scope</h4>
+        <hr>
+
+        <h3>{{ctrl.welcome}}</h3>
+
+        <div class="btn btn-primary" ng-click="ctrl.sayHi()">Click me!</div>
+
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module("app", [])
+
+            .controller("AppCtrl", function () {
+
+                this.sayHi = function () {
+                    alert('hello');
+                };
+
+                this.welcome = "Welcome!";
+
+            });
+
+</script>
+</body>
+</html>

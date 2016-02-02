@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <title></title>
+</head>
+<body>
+
+<div ng-app="app" class="container">
+    <div ng-controller="Ctrl">
+        <p>Jeżeli mamy w widoku wiele nasłuchujących na zmiany wyrażeń angularowych, może to spowodować problem z
+            wydajnością. Aby temu zapobiec możemy użyć znaku "::" aby
+            spowodować odłączenie nasłuchiwania po pierwszym załadowaniu danych</p>
+        <hr/>
+        <button ng-click="clickMe($event)">Click Me several times</button>
+        <br/>
+        <br/>
+
+        <p id="one-time-binding-example">One time binding: {{::name}}</p>
+
+        <p id="normal-binding-example">Normal binding: {{name}}</p>
+        <hr/>
+        <ul>
+            <li ng-repeat="name in ::names">{{name}}</li>
+        </ul>
+        <hr/>
+        <input type="text"
+               ng-model-options="{debounce: 1000}"
+               ng-model="value"/> {{value}}
+    </div>
+
+    <script src="../libs/angular/angular.js"></script>
+    <script>
+        angular
+                .module('app', [])
+                .controller('Ctrl', function ($scope, $timeout) {
+                    var counter = 0;
+                    $scope.names = ['Igor', 'Misko', 'Chirayu', 'Lucas'];
+
+                    // ten element tablicy nie zostanie wyświelnoy w ng-repeat
+                    $timeout(function () {
+                        $scope.names.push('Harry');
+                    });
+
+                    $scope.clickMe = function (clickEvent) {
+                        $scope.name = $scope.names[counter % $scope.names.length];
+                        counter++;
+                    };
+                });
+    </script>
+</body>
+</html>

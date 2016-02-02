@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body ng-app="app">
+<div ng-controller="Ctrl" class="container">
+    <br>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Angular filters</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div>search by name:</div>
+                    <!--Filtrowanie z ng-modelem. Dodanie dodatkowej właściwości do modelu (np. user.name) powoduje
+                    utworzenie obiektu - pozwala to sortować po określonym kluczu.-->
+                    <input type="text" ng-model="user.name" class="form-control">
+                    {{user}}
+                </div>
+                <div class="col-lg-3">
+                    <div>order by:</div>
+                    <select ng-model="sortBy"
+                            class="form-control"
+                            ng-options="item for item in ['name', 'profession']">
+                    </select>
+                </div>
+                <div class="col-lg-3 btn-group-sm radio-inline" data-toggle="buttons">
+                    <div>asc/desc:</div>
+                    <label class="btn btn-default"
+                           ng-class="{'active': desc, 'normal': !desc}">
+                        <input type="radio" ng-model="desc" ng-value="true">
+                        asc
+                    </label>
+                    <label class="btn btn-default"
+                           ng-class="{'active': !desc, 'normal': desc}">
+                        <input type="radio" ng-model="desc" ng-value="false">
+                        desc
+                    </label>
+                </div>
+                <div class="col-lg-3">
+                    <div>limit:</div>
+                    <select ng-model="limit"
+                            class="form-control"
+                            ng-options="item for item in [2,5,10]">
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <ul class="list-group">
+                <li class="list-group-item"
+                    ng-repeat="item in items
+                                    | filter:user
+                                    | orderBy:sortBy:desc
+                                    | limitTo: limit">
+                    {{item.name}} - {{item.profession | dashToCamelCase}}
+                </li>
+            </ul>
+            <hr>
+            <h3>filtr daty</h3>
+            <div>{{ dateTimeStamp | date:'dd/M/yyyy H:mm' }}</div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Custom filters</div>
+        <div class="panel-body">
+            <h3>
+                {{items[0].name | greating:'pl'}}
+            </h3>
+            <hr>
+            <dl>
+                <dt>Filtrowana lista pracowników:</dt>
+                <dd ng-repeat="item in items | del:'profession':'designer' | del:'name':'Joe'">
+                    {{item}}
+                </dd>
+            </dl>
+            <hr>
+            <div>
+                {{items | startFromFtr:4}}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    angular
+            .module('app', [])
+            .controller('Ctrl', function ($scope, $filter) {
+                $scope.items = [
+                    {name: 'John', profession: 'designer'},
+                    {name: 'Mike', profession: 'front-end developer and designer'},
+                    {name: 'Kate', profession: 'back-end and front-end developer'},
+                    {name: 'Karolina', profession: 'back-end and front-end developer'},
+                    {name: 'Joe', profession: 'office-manager'},
+                    {name: 'Steve', profession: 'account'}
+                ];
+                $scope.dateTimeStamp = Date.now();
+
+                // przefiltrowanie tablicy items filtram jakich użyliśmy w dyrektywie ng-repeat.
+                $scope.$watchGroup(['user.name', 'sortBy', 'desc', 'limit'], function (newVal) {
+                    var filter = $filter('filter')($scope.items, $scope.user);
+                    var order = $filter('orderBy')(filter, newVal[1], newVal[2]);
+                    var limit = $filter('limitTo')(order, newVal[3]);
+                    console.log(angular.toJson(limit));
+                });
+
+            })
+            .filter('greating', function () {
+                return function (expression, lang) {
+                    var greating = lang === 'pl' ? 'Witaj ' : 'Welcome ';
+                    return greating + expression;
+                };
+            })
+            .filter("dashToCamelCase", function () {
+                return function (expression) {
+                    return expression.replace(/-[a-z]/g, function (val) {
+                        return val.charAt(1).toUpperCase();
+                    });
+                }
+            })
+            .filter('del', function () {
+                return function (arr, key, value) {
+                    return arr.filter(function (item) {
+                        return item[key] != value;
+                    });
+                }
+            })
+            .filter('startFromFtr', function () {
+                return function (expression, index) {
+                    if (expression) {
+                        return expression.slice(index);
+                    }
+                }
+            });
+
+</script>
+</body>
+</html>

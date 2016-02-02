@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body ng-app="app" class="container">
+
+<div ng-controller="Ctrl">
+    name: {{friends}}
+    <hr>
+    <my-worker ng-repeat="friend in friends"
+               name="{{user.name}}"
+               model="friend"
+               action="action(param)">
+        worker {{$index + 1}}
+    </my-worker>
+
+</div>
+
+<script src="dctv.js"></script>
+
+</body>
+</html>

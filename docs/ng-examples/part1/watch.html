@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body>
+
+<div ng-app="watchApp" class="container">
+    <form ng-controller="Ctrl">
+
+        <h3>efekt widoczny w konsoli</h3>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="well">
+                    <h4>watch na zmiennej</h4>
+                    <input class="form-control" ng-model="welcome" type="text" autofocus/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="well">
+                    <h4>watch na całym obiekcie lub tablicy - opcja true</h4>
+                    <input class="form-control" ng-model="user.name" type="text"/>
+                    <input class="form-control" ng-model="user.email" type="email"/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="well">
+                    <div class="text-center">watchGroup - watch na wybranych właściwościach</div>
+                    <div class="col-lg-6">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="access" value="admin">
+                                Admin
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="access" value="guest">
+                                Guest
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="active" value="active">
+                                active
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="active" value="inactive">
+                                inactive
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    angular.module("watchApp", [])
+
+            .controller("Ctrl", function ($scope) {
+
+                $scope.welcome = "Welcome!";
+
+                $scope.user = {
+                    name: 'Joe',
+                    email: 'joe@doe.com'
+                };
+
+                // watch na właściwości obiektu lub na zmiennej
+                $scope.$watch('welcome', function (newVal, oldVal) {
+                    console.log('welcome:', newVal);
+                });
+
+                // watch na całym obiekcie lub tablicy - opcja true
+                $scope.$watch('user', function (newVal, oldVal) {
+                    console.log('user:', newVal);
+                }, true);
+
+                $scope.$watchGroup(['access', 'active'], function (newVal, oldVal) {
+                    console.log('access/active:', newVal);
+                });
+
+                $scope.$watch('welcome === "hello"', function (newVal) {
+                    console.log(newVal);
+                })
+
+            })
+
+</script>
+</body>
+</html>

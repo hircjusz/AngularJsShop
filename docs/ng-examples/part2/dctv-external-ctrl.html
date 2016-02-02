@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div ng-app="app">
+    <my-dctv></my-dctv>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module("app", [])
+
+            .controller("ExternalCtrl", function ($scope, $element) {
+                this.addText = function (text) {
+                    $element.append(text);
+                }
+                $element.on('click', function () {
+                    alert('click');
+                })
+            })
+
+            .directive('myDctv', function () {
+                return {
+                    restrict: "E",
+                    controller: 'ExternalCtrl',
+                    template: "<div>HOVER OR CLICK ME</div>",
+                    link: function (scope, el, attrs, ctrl) {
+                        el.on('mouseenter', function () {
+                            ctrl.addText('text!');
+                        })
+                    }
+                }
+            })
+
+</script>
+</body>
+</html>

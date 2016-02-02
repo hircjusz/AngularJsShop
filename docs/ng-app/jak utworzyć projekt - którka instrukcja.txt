@@ -1,0 +1,7 @@
+- tworzymy pliki: package.json, bower.json i .bowerrc
+- sci¹gamy zale¿noœci: npm install
+- instalujemy interfejsy (tsd): tsd install angular angular-ui-bootstrap angular-ui-router angular-cookies angular-resource jquery --save
+- uruchamiamy: bower install
+- tworzymy tsconfig.json
+- uruchmiamy tsc -w
+- mo¿e zaistnieæ potrzeba zainstalowania typescript i tsc globalnie

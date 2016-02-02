@@ -1,0 +1,16 @@
+html {
+    overflow-y: scroll;
+}
+
+body {
+  padding: 20px;
+  font-size: 18px !important;
+}
+
+.well, input, textarea {
+    /*border: 1px solid #000000;*/
+}
+
+input {
+    margin-bottom: 4px;
+}

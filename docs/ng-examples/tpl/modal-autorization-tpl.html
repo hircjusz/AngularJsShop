@@ -1,0 +1,17 @@
+<form name="loginForm" novalidate>
+    <div class="modal-header">
+        <h3 class="modal-title">
+            Logowanie
+        </h3>
+    </div>
+    <div class="modal-body" ng-init="login='admin'; pass='admin'">
+        <label for="login">login:</label>
+        <input class="form-control" id="login" type="text" ng-model="login" autofocus/>
+        <label for="pass">hasło:</label>
+        <input class="form-control" id="pass" type="password" ng-model="pass"/><br>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok(loginForm)">Login</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+</head>
+
+<style>
+    .col-lg-6 {
+        border: solid;
+    }
+</style>
+<body>
+
+<div ng-app="app" class="container">
+    <div>
+        <h4>Przykład pokazuje do czego możemy użyć funkcję compile.<br>
+            <b>Obie dyrektywy korzystają z tej samej templatki, natomiast druga modyfikuje templatkę przed dodaniem do
+                DOM </b><br/>
+            Metoda compile może zwrócić obiekt z metodami pre i post - metoda post to funkcja linkująca (link)</h4>
+        <hr>
+
+        <div class="col-lg-6">
+            <my-dctv>
+                <h5>transclude text</h5>
+            </my-dctv>
+        </div>
+
+        <div class="col-lg-6">
+            <my-dctv-with-compile>
+                <h5>transclude text</h5>
+            </my-dctv-with-compile>
+        </div>
+
+    </div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+
+    angular.module("app", [])
+
+            .service('helper', function () {
+                this.createRandomColor = function () {
+                    var letters = '0123456789ABCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+            })
+
+            .directive('myDctv', function (helper) {
+                return {
+                    restrict: "E",
+                    templateUrl: "../tpl/dctv-fn-compile.html",
+                    transclude: true,
+                    link: function (scope, el) {
+                        el.find('div').css({border: '5px solid ' + helper.createRandomColor()});
+                        el.find('div').append('<h5>kolor bordera zmieniony w funkcji linkującej</h5>')
+                    }
+                }
+            })
+
+            .directive('myDctvWithCompile', function (helper) {
+                return {
+                    restrict: "E",
+                    templateUrl: "../tpl/dctv-fn-compile.html",
+                    transclude: true,
+                    // w metodzie "compile" możemy dokonywać zmian na szablonie. zmiany te będą dokanają się w każdej instancji
+                    // dyrektywy. jeżeli w dyrektywie mamy metodę "compile" funkcja "link" nie zostanie uruchomiona.
+                    // Metoda "compile" może zwrócić funkcję "link" lub obiekt z metodami pre i post - metoda post jest funkcją linkującą.
+                    compile: function (el, attributes) {
+                        console.log("compile", arguments);
+                        // robimy zmiany na szblonie
+                        var newEl = "<h4 style='background-color: pink; padding: 10px;'>element dodany do templatki w funkcji compile</h4>";
+                        el.prepend(newEl);
+                        el.append(newEl);
+                        // zwracamy obiekt z funkcją linkującą.
+                        return {
+                            // metoda pre wykonuje się w momęcie kiedy templatka jest już dołączona do DOM ale nie mamy jeszcze dodanego
+                            // do templatki ng-transclude.
+                            pre: function (scope, el, attributes, ctrl) {
+                                console.log("pre", arguments);
+                                el.find('h5').css({'color': 'red', fontWeight: 'bold'}); // nie zadziała ponieważ h5 jest w transclude!
+                            },
+                            // metoda post wykonuje się kiedy transclude został już dodany do DOM
+                            post: function (scope, el, attributes, ctrl) {
+                                console.log("post", arguments);
+                                // zmiana na ng-transclude
+                                el.find('h5').css({'color': 'red', fontWeight: 'bold'});
+                                el.find('div').css({border: '5px solid ' + helper.createRandomColor()});
+                                el.find('div').append('<h5>kolor bordera zmieniony w funkcji linkującej</h5>')
+                            }
+                        }
+                    }
+                }
+            });
+
+</script>
+</body>
+</html>

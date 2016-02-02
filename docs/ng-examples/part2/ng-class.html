@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <style>
+        li {
+            color: white;
+            padding: 5px;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div ng-controller="ctrl" class="container">
+
+    <h4>Lista zwierząt w zoo:</h4>
+    <!--przekazujemy objekt do dyrektywy ng-class-->
+    <ul>
+        <li ng-repeat="item in list"
+            ng-class="{'alert alert-danger':isAggressive(item), 'alert alert-success':!isAggressive(item)}">
+            {{$index + 1 + '. ' }}
+            {{item.animal}} - {{isAggressive(item) && 'agresywny' || 'spokojny'}}
+        </li>
+    </ul>
+
+    <hr/>
+    <h4>Stan:</h4>
+
+    <p>ilość zwierząt w zoo: {{list.length}}</p>
+    <input id="checkbox1" type="checkbox" ng-model="access"/>
+    <label for="checkbox1">Otwórz zoo</label>
+
+    <h4 ng-if="access" class="text-danger"> Klatki otwarte, zwierzęta uciekły </h4>
+
+    <h4 ng-if="!access"> Zwierzęta są w klatkach </h4>
+
+</div>
+
+<!-- class="{{isAggressive(item) && 'red' || 'green'}}" -->
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+
+    angular.module('app', [])
+
+            .controller('ctrl', function ($scope) {
+                $scope.list = [
+                    {animal: 'alligator', type: 'aggressive'},
+                    {animal: 'hamster', type: 'mild'},
+                    {animal: 'lion', type: 'aggressive'},
+                    {animal: 'monkey', type: 'mild'},
+                    {animal: 'dog', type: 'mild'},
+                ]
+                $scope.isAggressive = function (item) {
+                    return item.type == "aggressive" ? true : false;
+                }
+            })
+
+    angular.bootstrap(document, ['app']);
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <script src="../libs/angular/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.12.1/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/tinycolor/0.11.1/tinycolor.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.js"></script>
+
+    <style>
+        .well {
+            border: 30px solid black;
+        }
+    </style>
+</head>
+<body ng-app="app" class="container">
+
+<p>$apply and $digest are both methods on AngularJS scopes that allow you to manually trigger the updates to bound properties on your scopes.</p>
+<ul>
+    <li>digest - refresh only local scope</li>
+    <li>apply - refresh root scope and then cascade down into every child scope</li>
+</ul>
+<div class="well" ng-controller="OuterCtrl">
+    <h2>Outer {{ time }}</h2>
+
+    <div class="well" ng-controller="MiddleCtrl">
+        <h2>Middle {{ time }}</h2>
+
+        <div class="well" ng-controller="InnerCtrl">
+            <h2>Inner {{ time }}</h2>
+
+            <digest-button></digest-button>
+            <apply-button></apply-button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    angular.module("app", [])
+
+            .service('helper', function () {
+                return {
+                    randomColor: function () {
+                        return tinycolor.fromRatio({
+                            r: Math.random(),
+                            g: Math.random(),
+                            b: Math.random()
+                        }).toHexString()
+                    }
+                }
+            })
+
+            .run(function ($rootScope, helper) {
+                $rootScope.helper = helper
+            })
+
+            .controller("OuterCtrl", function ($scope, $element) {
+                $scope.$watch(function () {
+                    TweenMax.to($element, .5, {
+                        borderColor: $scope.$root.helper.randomColor()
+                    });
+                })
+            })
+            .controller("MiddleCtrl", function ($scope, $element) {
+                $scope.$watch(function () {
+                    TweenMax.to($element, .5, {
+                        borderColor: $scope.$root.helper.randomColor()
+                    })
+                })
+            })
+            .controller("InnerCtrl", function ($scope, $element) {
+                $scope.$watch(function () {
+                    TweenMax.to($element, .5, {
+                        borderColor: $scope.$root.helper.randomColor()
+                    })
+                })
+            })
+
+            .directive("digestButton", function ($rootScope) {
+                return {
+                    restrict: "E",
+                    template: "<button class='btn btn-primary'>$digest {{digestCount}}</button>",
+                    link: function (scope, element, attrs, ctrl) {
+                        scope.digestCount = 0;
+                        element.on("click", function () {
+                            $rootScope.time = moment().format('h:mm:ss');
+                            scope.digestCount++;
+                            scope.$digest();
+                        })
+                    }
+                }
+            })
+
+            .directive("applyButton", function ($rootScope) {
+                return {
+                    restrict: "E",
+                    template: "<button class='btn btn-primary'>$apply {{applyCount}}</button>",
+                    link: function (scope, element, attrs, ctrl) {
+                        scope.applyCount = 0;
+                        element.on("click", function () {
+                            $rootScope.time = moment().format('h:mm:ss');
+                            scope.applyCount++;
+                            scope.$apply();
+                        })
+                    }
+                }
+            })
+</script>
+
+</body>
+</html>

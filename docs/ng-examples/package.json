@@ -1,0 +1,11 @@
+{
+  "name": "ng-examples",
+  "version": "0.0.0",
+  "description": "A starter project for AngularJS",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "latest",
+    "typescript": "latest",
+    "tsd": "latest"
+  }
+}

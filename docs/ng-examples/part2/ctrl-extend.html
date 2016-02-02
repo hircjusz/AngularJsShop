@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+<div ng-app="app" ng-controller="AppCtrl">
+    <h2>przykład rozszeżenia kontrolera</h2>
+    <hr>
+    <h3>{{title}}</h3>
+    <button class="btn btn-primary" ng-click="select()">select</button>
+    <button class="btn btn-success" ng-click="updateTitle()">updateTitle</button>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    angular.module('app', [])
+
+            .controller('BaseCtrl', function ($scope) {
+                $scope.select = function () {
+                    alert($scope.title);
+                };
+                $scope.title = 'Title from BaseCtrl';
+            })
+
+            .controller('AppCtrl', function ($scope, $controller) {
+                //inherit BaseCtrl for AppCtrl
+                angular.extend(this, $controller('BaseCtrl', {$scope: $scope}));
+
+                $scope.updateTitle = function () {
+                    $scope.title = 'Title from AppCtrl';
+                }
+            })
+
+</script>
+</body>
+</html>

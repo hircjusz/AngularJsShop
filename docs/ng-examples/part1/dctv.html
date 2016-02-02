@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body ng-app="app" class="container">
+
+<div ng-controller="Ctrl">
+    name: {{friends}}
+    <hr>
+    <my-worker ng-repeat="friend in friends"
+               name="{{user.name}}"
+               model="friend"
+               action="action(param)">
+        worker {{$index + 1}}
+    </my-worker>
+
+</div>
+
+<script>
+    angular
+            .module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.friends = [
+                    {name: 'John', profession: 'designer'},
+                    {name: 'Mike', profession: 'front-end developer and designer'},
+                    {name: 'James', profession: 'back-end and front-end developer'}
+                ];
+                $scope.action = function (param) {
+                    alert(angular.toJson(param));
+                };
+            })
+            .directive('myWorker', function () {
+                return {
+                    transclude: true,
+                    replace: true,
+                    scope: {
+                        name: "@", // by value; one way data binding
+                        model: "=", // by reference; two way data binding
+                        action: "&" // event
+                    },
+                    templateUrl: "../tpl/dctv-tpl.html",
+                    link: function (scope, el, attrs, ctrl) {
+                        el.on('mouseenter', function () {
+                            el.css({
+                                background: "silver"
+                            })
+                        });
+                        el.on('mouseleave', function () {
+                            el.css({
+                                background: "white"
+                            })
+                        });
+                        el.on('click', function () {
+                            console.log('clicked');
+                        });
+                    }
+                }
+            })
+</script>
+
+</body>
+</html>

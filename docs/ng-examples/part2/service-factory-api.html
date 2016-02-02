@@ -1,0 +1,78 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>chart</title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+</head>
+<body>
+
+<div class="chart-wrapper" ng-controller="Ctrl">
+    {{items}}
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="../libs/angular-resource/angular-resource.js"></script>
+<script>
+    'use strict';
+    angular.module('app', ['ngResource'])
+
+            .controller('Ctrl', function ($scope, dataStorage) {
+                //dataStorage('http://js.edu.pl/api/examples/items')
+                dataStorage()
+                        .then(function (store) {
+                            var promise = store.api.get().$promise;
+                            promise.then(function (responseData) {
+                                $scope.items = responseData;
+                            });
+                        });
+            })
+
+            .factory('dataStorage', function ($http, $injector) {
+
+                // Detect if an API backend is present. If so, return the API module, else
+                // hand off the localApi adapter
+                return function (link) {
+                    return $http.get(link || 'no-link')
+                            .then(function () {
+                                return $injector.get('serverApi');
+                            }, function () {
+                                return $injector.get('localApi');
+                            });
+                }
+            })
+
+            .service('serverApi', function ($resource) {
+                this.api = $resource('http://js.edu.pl/api/examples/items/:id', {})
+            })
+
+            .service('localApi', function ($q) {
+
+                        var STORAGE_ID = 'localhost-api';
+
+                        var data = [];
+
+                        var getFromLocalStoragegetLength = function () {
+                            !localStorage[STORAGE_ID] && localStorage.setItem(STORAGE_ID, JSON.stringify([{
+                                id: 1,
+                                name: 'first item'
+                            }]));
+                            return JSON.parse(localStorage.getItem(STORAGE_ID));
+                        };
+
+                        this.api = {
+                            get: function () {
+                                var deferred = $q.defer();
+                                angular.copy(getFromLocalStoragegetLength(), data);
+                                deferred.resolve(data);
+                                deferred.$promise = deferred.promise;
+                                return deferred;
+                            }
+                        }
+                    }
+            );
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <script src="../libs/angular/angular.js"></script>
+</head>
+<body>
+
+<div class="container" ng-controller="Ctrl">
+
+    <div class="col-lg-6 well">
+        <p>Dyrektywę ng-model możemy podpiąć do elementów formularza np: input, textarea, select</p>
+        <input class="form-control" placeholder="napisz coś" ng-model="name" type="text"/>
+        <textarea class="form-control" placeholder="napisz coś" ng-model="description" cols="2"></textarea>
+        <br/>
+        {{ name }}
+        <br/>
+        {{ description }}
+    </div>
+
+</div>
+
+<script>
+    angular
+            .module('app', [])
+            .controller('Ctrl', function ($scope) {
+
+            })
+</script>
+
+</body>
+
+</html>

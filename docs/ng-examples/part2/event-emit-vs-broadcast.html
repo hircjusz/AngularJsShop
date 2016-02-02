@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+<div class="row col-lg-12">
+    <p>$broadcast - dispatches the event downwards to all child scopes,</p>
+
+    <p>$emit - dispatches the event upwards through the scope hierarchy.</p>
+</div>
+<div class="clearfix"></div>
+<hr/>
+<div ng-app="app">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-primary" ng-controller="FirstContainerCtrlA">
+                <div class="panel-heading"> FirstContainerCtrlA - count: {{count}} (listening on scope)</div>
+
+                <div class="panel-body">
+                    <div class="panel panel-primary" ng-controller="FirstContainerCtrlB">
+                        <div class="panel-heading">FirstContainerCtrlB - count: {{count}} (listening on scope)</div>
+                        <div class="panel-body">
+                            <button class="btn btn-success btn-lg" ng-click="$emit('MyEvent')">
+                                $scope.$emit('MyEvent')
+                            </button>
+                            <button class="btn btn-success btn-lg" ng-click="$broadcast('MyEvent')">
+                                $scope.$broadcast('MyEvent')
+                            </button>
+                            <hr/>
+                            <div class="panel panel-primary" ng-controller="FirstContainerCtrlC">
+                                <div class="panel-heading">
+                                    FirstContainerCtrlC - count: {{count}} (listening on scope)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="panel panel-primary" ng-controller="SecondContainerCtrlA">
+                <div class="panel-heading"> SecondContainerCtrlA - count: {{count}} (listening on rootScope)</div>
+
+                <div class="panel-body" ng-controller="SecondContainerCtrlB">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            SecondContainerCtrlB - count: {{count}} (listening on rootScope)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    function firstCtrlContent(scope) {
+        scope.count = 0;
+        // listening on scope
+        scope.$on('MyEvent', function () {
+            scope.count++;
+        });
+    }
+    function secondCtrlContent(scope) {
+        scope.count = 0;
+        // listening on rootScope
+        scope.$root.$on('MyEvent', function () {
+            scope.count++;
+        });
+    }
+    var app = angular.module("app", []);
+    app.controller('FirstContainerCtrlA', function ($scope) {
+        firstCtrlContent($scope);
+    })
+    app.controller('FirstContainerCtrlB', function ($scope) {
+        firstCtrlContent($scope);
+    })
+    app.controller('FirstContainerCtrlC', function ($scope) {
+        firstCtrlContent($scope);
+    })
+    app.controller('SecondContainerCtrlA', function ($scope) {
+        secondCtrlContent($scope);
+    })
+    app.controller('SecondContainerCtrlB', function ($scope) {
+        secondCtrlContent($scope);
+    })
+</script>
+</body>
+</html>

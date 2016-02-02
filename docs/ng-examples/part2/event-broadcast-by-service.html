@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="../style/style.css">
+</head>
+<style>
+  body {
+    width     : 600px;
+    font-size : 22px;
+  }
+
+  .mark {
+    border-bottom : solid;
+  }
+
+  .toggle-box {
+    padding    : 10px;
+    border     : 1px solid black;
+    background : white;
+  }
+
+  li > a {
+    cursor: pointer;
+  }
+</style>
+<body>
+
+<div ng-app="modelDemo">
+  <h4>Serwis z modelem danych oraz wywołanie i odbiór eventu (broadcast)</h4>
+  <hr />
+
+  <div ng-controller="AuthorListCtrl">
+    <ul>
+      <li ng-repeat="author in quotesList">
+
+        <!--author-->
+        <a ng-click="selectQuote(author)"
+          class="{{isSelected(author) && 'mark'}}">
+          {{author.name}}
+        </a>
+
+        <!--quote-->
+        <div class="toggle-box"
+          ng-show="isSelected(author)">
+          {{selectedAuthor.quote}}
+        </div>
+
+      </li>
+    </ul>
+  </div>
+
+</div>
+<script src="../libs/angular/angular.js"></script>
+<script src="js/event-broadcast-by-service.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css"/>
+</head>
+<body ng-app="app" ng-controller="AppCtrl" class="container">
+
+<h4>The ngSanitize module provides functionality to sanitize HTML.</h4>
+<hr/>
+<div class="col-md-6">
+    <h4>prosty przykład renderowawnia HTML'a</h4>
+
+    <div ng-bind-html="val"></div>
+    <div ng-bind-html="testSce"></div>
+</div>
+
+<div class="col-md-6">
+    <h4>tekst wpisany do textarea jest automatycznie konwertowany do zaufanego html'a</h4>
+    <textarea cols="80" rows="10" ng-model="someHtml"></textarea>
+    <hr/>
+    <div ng-bind-html="deliberatelyTrustDangerousSnippet()"></div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script src="../libs/angular-sanitize/angular-sanitize.js"></script>
+
+<script>
+    angular.module("app", ["ngSanitize"])
+
+            .controller("AppCtrl", function ($scope, $sce) {
+
+                $scope.val = '<b>prosty bold bold</b>';
+
+                $scope.testSce = $sce.trustAsHtml('<hr>...mój zaufany <b style="color:red">HTML</b>');
+
+                $scope.someHtml = "<b>start...</b>\n<img width='200' src='https://www.google.pl/images/srpr/logo11w.png'>"
+
+                $scope.deliberatelyTrustDangerousSnippet = function () {
+                    return $sce.trustAsHtml($scope.someHtml);
+                };
+
+            });
+
+</script>
+</body>
+</html>

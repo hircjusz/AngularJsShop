@@ -1,0 +1,41 @@
+﻿<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Sample</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
+
+<section class="content">
+    <h2>{{ title | date:'fullDate' }}</h2>
+    <h4>one-timebinding {{ :: 'dashboard.subtitle' | translate }}</h4>
+    <h4>default binding {{ 'dashboard.subtitle' | translate }}</h4>
+    <h4>{{ scopedNumber | number:2 }}</h4>
+
+    <h4>Progress bar</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-primary" ng-click="progressStart()">Start progress bar</button>
+            <button class="btn btn-default" ng-click="progressEnd()">Stop progress bar</button>
+        </div>
+    </div>
+    <h4>Date control from ngStrap</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="selectedDate" data-date-type="number" data-min-date="today" data-autoclose="false" data-trigger="click" bs-datepicker>
+            <span>{{selectedDate | date:'fullDate'}}</span>
+        </div>
+    </div>
+
+    <h4>Http get</h4>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="username" />
+            <button class="btn btn-primary" ng-click="sayHello()">Say hello</button>
+            <p>{{helloMessage}}</p>
+        </div>
+    </div>
+</section>
