@@ -57,6 +57,23 @@
     <button ng-click="insertTom()">Insert</button>
 </div>
 
+<h1>SHARED SCOPE</h1>
+<div my-shared-scope></div>
+
+<h1>FRIENDS CONTROLLER</h1>
+<div ng-controller="FriendsCtrl">
+    name: {{friends}}
+    <hr>
+    <div my-worker ng-repeat="friend in friends"
+               name="{{user.name}}"
+               model="friend"
+               action="action(param)">
+        worker {{$index + 1}}
+    </div>
+
+</div>
+
+
 <h1>FormStartupController</h1>
 <div>
     <form ng-controller='FormStartupController' ng-submit="requestFunding()">
@@ -68,10 +85,10 @@
         <button ng-click="reset()">Reset</button>
     </form>
 </div>
-<h1>DeathrayMenuController</h1>
+<!--<h1>DeathrayMenuController</h1>
 <div ng-controller='DeathrayMenuController'>
 <ul>
 <li class='menu-disabled-{{isDisabled}}' ng-click='stun()'>Stun</li>
 <li class='menu-disabled-true' ng-click='stun()'>StunGray</li>
 </ul>
-</div>
+</div>-->

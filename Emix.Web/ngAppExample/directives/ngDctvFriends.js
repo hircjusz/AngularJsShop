@@ -37,23 +37,35 @@
             $scope.funding.startingEstimate = 0;
         }
     })
+    .directive('mySharedScope', function () {
+        return {
+            template: 'Name: {{customer.name}}<br /> Street: {{customer.street}}'
+        };
+    })
         .directive('myWorker', function () {
     return {
         transclude: false,
         replace: true,
         scope: {
             name: "@", // by value; one way data binding
-            //model: "@", // by reference; two way data binding
-            //action: "@", // event
-            //templateUrl: "ngAppExample/tpl/dctv-friends-tpl.html",
-            template: "<input type='text' disabled ng-model='model.name' class='form-control'>",
-
+            model: "=", // by reference; two way data binding
+            action: "&", // event
+        },
+            templateUrl: "/ngAppExample/tpl/dctv-friends-tpl.html",
             link: function (scope, el, attrs, ctrl) {
-
+                el.on('mouseenter', function () {
+                    el.css({
+                        background: "silver"
+                    })
+                });
+                el.on('mouseleave', function () {
+                    el.css({
+                        background: "white"
+                    })
+                });
+                el.on('click', function () {
+                    console.log('clicked');
+                });
             }
         }
-
-    };
-
-
 });
