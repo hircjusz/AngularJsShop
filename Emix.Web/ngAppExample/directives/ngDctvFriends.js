@@ -68,4 +68,42 @@
                 });
             }
         }
+        })
+.directive('inputDctv', function () {
+    return {
+        transclude: true,
+        scope: {
+            model: "="
+        },
+        template: '<div ng-form="inputDctv">' +
+                    '<div ng-transclude></div>' +
+                    '<div class="input-content"></div>' +
+                    '<small ng-show="inputDctv.$invalid">pole wymagane</small>' +
+                    '</div>',
+        compile: function (el, attrs) {
+            var tpl = attrs.type === 'multiline'
+                    ? angular.element('<textarea>').attr('rows', 4)
+                    : angular.element('<input>').attr('type', attrs.type || 'text');
+
+            tpl.attr({
+                'required': attrs.required,
+                'ng-minlength': attrs.minlength || 3,
+                'ng-model': 'model'
+            });
+
+            tpl.addClass('form-control');
+
+            var inputContent = el[0].querySelector(".input-content");
+            angular.element(inputContent).append(tpl);
+
+            return {
+                pre: function () {
+                },
+                post: function (scope, el) {
+                    el.find('small').css({ color: 'coral' });
+                }
+            }
+        }
+    }
 });
+;
